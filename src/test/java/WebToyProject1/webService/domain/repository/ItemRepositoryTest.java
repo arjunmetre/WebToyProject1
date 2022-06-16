@@ -1,11 +1,10 @@
 package WebToyProject1.webService.domain.repository;
 
 import WebToyProject1.webService.domain.Item;
-import org.assertj.core.api.Assertions;
+import WebToyProject1.webService.repository.ItemRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ItemRepositoryTest {
 
@@ -30,9 +29,9 @@ class ItemRepositoryTest {
         Item savedItem = itemRepository.save(item);
 
         //when
-        Item findedItem = itemRepository.findById(1L);
+        Item itemFind = itemRepository.findById(1L);
 
         //then
-        assertThat(savedItem.getId()).isEqualTo(findedItem.getId());
+        assertThat(savedItem.getId()).isEqualTo(itemFind.getId());
     }
 }

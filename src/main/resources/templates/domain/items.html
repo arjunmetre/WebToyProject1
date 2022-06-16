@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h3>아이템 목록입니다.</h3>
+<a th:href="@{/addItem}">아이템 추가하기</a>
+
+<table>
+    <tr>
+        <th>id</th>
+        <th>itemName</th>
+        <th>price</th>
+        <th>quantity</th>
+        <th>아이템 상세</th>
+    </tr>
+    <tr th:each="item : ${data}">
+        <td th:text="${item.id}">id</td>
+        <td th:text="${item.itemName}">itemName</td>
+        <td th:text="${item.price}">price</td>
+        <td th:text="${item.quantity}">quantity</td>
+        <td><a th:href="@{/item/{itemId}(itemId=${item.id})}">아이템 상세</a></td>
+    </tr>
+</table>
+
+</body>
+</html>
