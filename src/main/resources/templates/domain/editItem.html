@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h3>아이템 수정 페이지입니다.</h3>
+
+<form th:action th:object="${item}" method="post">
+    <div>
+        <label for="id">Item id</label>
+        <input type="text" id="id" th:field="*{id}" readonly>
+    </div>
+    <div>
+        <label for="itemName">Item name</label>
+        <input type="text" id="itemName" th:field="*{itemName}">
+    </div>
+    <div>
+        <label for="price">Item price</label>
+        <input type="text" id="price" th:field="*{price}">
+    </div>
+    <div>
+        <label for="quantity">Item quantity</label>
+        <input type="text" id="quantity" th:field="*{quantity}">
+    </div>
+    <div>
+        <input type="submit" value="수정">
+    </div>
+
+</form>
+
+<a th:href="@{/items}">수정 취소</a>
+
+</body>
+</html>

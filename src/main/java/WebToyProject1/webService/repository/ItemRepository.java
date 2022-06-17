@@ -17,10 +17,6 @@ public class ItemRepository {
     private Map<Long, Item> store = new HashMap<>();
     private long sequence = 0;
 
-    @Autowired
-    public ItemRepository() {
-    }
-
     public Item save(Item item) {
         item.setId(++sequence);
         store.put(item.getId(), item);
@@ -42,15 +38,7 @@ public class ItemRepository {
         originItem.setPrice(item.getPrice());
         originItem.setQuantity(item.getQuantity());
 
-        return item;
+        return originItem;
     }
 
-    @PostConstruct
-    public void init() {
-        Item item1 = new Item("item1", 30000L, 30L);
-        Item item2 = new Item("item2", 20000L, 40L);
-
-        save(item1);
-        save(item2);
-    }
 }
