@@ -37,6 +37,10 @@ public class ItemRepository {
         originItem.setItemName(item.getItemName());
         originItem.setPrice(item.getPrice());
         originItem.setQuantity(item.getQuantity());
+        originItem.setOpen(item.getOpen());
+        originItem.setRegions(item.getRegions());
+        originItem.setItemType(item.getItemType());
+        originItem.setDeliveryCode(item.getDeliveryCode());
 
         return originItem;
     }

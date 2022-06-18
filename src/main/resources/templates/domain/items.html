@@ -15,6 +15,10 @@
         <th>itemName</th>
         <th>price</th>
         <th>quantity</th>
+        <th>판매 여부</th>
+        <th>판매 지역</th>
+        <th>Item type</th>
+        <th>Delivery code</th>
         <th>아이템 상세</th>
     </tr>
     <tr th:each="item : ${data}">
@@ -22,6 +26,10 @@
         <td th:text="${item.itemName}">itemName</td>
         <td th:text="${item.price}">price</td>
         <td th:text="${item.quantity}">quantity</td>
+        <td th:text="${item.open}">open</td>
+        <td th:text="${item.regions}">regions</td>
+        <td th:text="${item.itemType}">itemType</td>
+        <td th:text="${item.deliveryCode}">itemType</td>
         <td><a th:href="@{/item/{itemId}(itemId=${item.id})}">아이템 상세</a></td>
     </tr>
 </table>

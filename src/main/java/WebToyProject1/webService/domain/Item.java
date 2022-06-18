@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @Getter @Setter
 public class Item {
@@ -12,6 +14,11 @@ public class Item {
     private String itemName;
     private Long price;
     private Long quantity;
+
+    private Boolean open;
+    private List<String> regions;
+    private ItemType itemType;
+    private String deliveryCode;
 
     public Item() {
 
