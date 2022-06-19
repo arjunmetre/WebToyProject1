@@ -8,17 +8,32 @@
 
 <h3>아이템을 등록하세요.</h3>
 <form th:action th:object="${item}" method="post">
+
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <p th:each="error : ${#fields.globalErrors()}" th:text="${error}">글로벌 에러 메시지</p>
+
+    </div>
+
     <div>
         <label for="itemName">Item name</label>
         <input type="text" id="itemName" th:field="*{itemName}" placeholder="아이템 이름을 입력하세요.">
+        <div th:errors="*{itemName}">
+            에러 메세지
+        </div>
     </div>
     <div>
         <label for="price">Item price</label>
         <input type="text" id="price" th:field="*{price}" placeholder="아이템 가격을 입력하세요.">
+        <div th:errors="*{price}">
+            에러 메세지
+        </div>
     </div>
     <div>
         <label for="quantity">Item quantity</label>
         <input type="text" id="quantity" th:field="*{quantity}" placeholder="아이템 수량을 입력하세요.">
+        <div th:errors="*{quantity}">
+            에러 메세지
+        </div>
     </div>
 
     <hr class="my-4">
@@ -36,6 +51,9 @@
             <label th:for="${#ids.prev('regions')}"
                    th:text="${region.value}" class="form-check-label">서울</label>
         </div>
+        <div th:errors="*{regions}">
+            에러 메시지
+        </div>
     </div>
 
     <div>
@@ -44,6 +62,9 @@
             <input type="radio" th:field="*{itemType}" th:value="${itemType.name()}">
             <label th:for="${#ids.prev('itemType')}"
                    th:text="${itemType.description}">도서</label>
+        </div>
+        <div th:errors="*{itemType}">
+            에러 메시지
         </div>
     </div>
 
@@ -54,6 +75,7 @@
                     th:text="${deliveryCode.displayName}">FAST
             </option>
         </select>
+        <div th:errors="*{deliveryCode}"></div>
     </div>
 
     <hr class="my-4">

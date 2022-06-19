@@ -9,6 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -82,7 +86,46 @@ public class MainController {
     }
 
     @PostMapping("/item/add")
-    public String addItem(@ModelAttribute Item item, RedirectAttributes redirectAttributes) {
+    public String addItem(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+        if (!StringUtils.hasText(item.getItemName())) {
+            bindingResult.addError(new FieldError("item", "itemName", "이름은 필수값 입니다."));
+        }
+
+        if (item.getPrice() == null || item.getPrice() < 1000) {
+            bindingResult.addError(new FieldError("item", "price", "가격은 필수 값이며, 1,000원 이상이어야 합니다."));
+        }
+
+        if (item.getQuantity() == null || item.getQuantity() < 10) {
+            bindingResult.addError(new FieldError("item", "quantity", "수량은 필수 값이며, 10개 이상이어야 합니다."));
+        }
+
+        if (item.getItemType() == null) {
+            bindingResult.addError(new FieldError("item", "itemType", "아이템 타입을 선택해주세요."));
+        }
+
+        if (item.getRegions().isEmpty()) {
+            bindingResult.addError(new FieldError("item", "regions", "지역을 한개 이상 선택해주세요."));
+        }
+
+        if (!StringUtils.hasText(item.getDeliveryCode())) {
+            bindingResult.addError(new FieldError("item", "deliveryCode", "배송 방식을 선택해주세요."));
+        }
+
+        // global
+        if (item.getQuantity() != null && item.getPrice() != null) {
+            long result = item.getPrice() + item.getQuantity();
+            if (result < 10000) {
+                bindingResult.addError(new ObjectError("item", "아이템 가격 * 수량이 10,000 이상이어야 합니다. 현재 가격 = " + result));
+            }
+        }
+
+        //오류가 있을 경우 현재 페이지에 남는다.
+        if (bindingResult.hasErrors()) {
+            log.info("bindingResult = {}", bindingResult);
+            return "domain/addItem";
+        }
+
         itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", item.getId());
         return "redirect:/item/{itemId}";
