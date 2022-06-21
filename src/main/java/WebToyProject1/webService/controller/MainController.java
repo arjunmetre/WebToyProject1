@@ -89,34 +89,35 @@ public class MainController {
     public String addItem(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         if (!StringUtils.hasText(item.getItemName())) {
-            bindingResult.addError(new FieldError("item", "itemName", "이름은 필수값 입니다."));
+            bindingResult.rejectValue("itemName", "required");
         }
 
-        if (item.getPrice() == null || item.getPrice() < 1000) {
-            bindingResult.addError(new FieldError("item", "price", "가격은 필수 값이며, 1,000원 이상이어야 합니다."));
+        if (item.getPrice() == null || item.getPrice() > 1000 || item.getPrice() < 1000000) {
+            bindingResult.rejectValue("price", "range", new Object[]{1000, 1000000}, null);
         }
 
-        if (item.getQuantity() == null || item.getQuantity() < 10) {
-            bindingResult.addError(new FieldError("item", "quantity", "수량은 필수 값이며, 10개 이상이어야 합니다."));
-        }
-
-        if (item.getItemType() == null) {
-            bindingResult.addError(new FieldError("item", "itemType", "아이템 타입을 선택해주세요."));
+        if (item.getQuantity() == null || item.getQuantity() > 9999) {
+            bindingResult.rejectValue("quantity", "max", new Object[]{9999}, null);
         }
 
         if (item.getRegions().isEmpty()) {
-            bindingResult.addError(new FieldError("item", "regions", "지역을 한개 이상 선택해주세요."));
+            bindingResult.rejectValue("regions", "min", new Object[]{1}, null);
+        }
+
+        if (item.getItemType() == null) {
+            bindingResult.rejectValue("itemType", "required");
+
         }
 
         if (!StringUtils.hasText(item.getDeliveryCode())) {
-            bindingResult.addError(new FieldError("item", "deliveryCode", "배송 방식을 선택해주세요."));
+            bindingResult.rejectValue("deliveryCode", "required");
         }
 
         // global
         if (item.getQuantity() != null && item.getPrice() != null) {
             long result = item.getPrice() + item.getQuantity();
             if (result < 10000) {
-                bindingResult.addError(new ObjectError("item", "아이템 가격 * 수량이 10,000 이상이어야 합니다. 현재 가격 = " + result));
+                bindingResult.reject("totalPriceMin", new Object[] {10000, result}, null);
             }
         }
 

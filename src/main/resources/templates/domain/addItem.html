@@ -15,21 +15,21 @@
     </div>
 
     <div>
-        <label for="itemName">Item name</label>
+        <label for="itemName" th:text="#{label.item.itemName}">Item name</label>
         <input type="text" id="itemName" th:field="*{itemName}" placeholder="아이템 이름을 입력하세요.">
         <div th:errors="*{itemName}">
             에러 메세지
         </div>
     </div>
     <div>
-        <label for="price">Item price</label>
+        <label for="price" th:text="#{label.item.price}">Item price</label>
         <input type="text" id="price" th:field="*{price}" placeholder="아이템 가격을 입력하세요.">
         <div th:errors="*{price}">
             에러 메세지
         </div>
     </div>
     <div>
-        <label for="quantity">Item quantity</label>
+        <label for="quantity" th:text="#{label.item.quantity}">Item quantity</label>
         <input type="text" id="quantity" th:field="*{quantity}" placeholder="아이템 수량을 입력하세요.">
         <div th:errors="*{quantity}">
             에러 메세지

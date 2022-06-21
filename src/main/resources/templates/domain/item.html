@@ -9,19 +9,19 @@
 <h3>아이템 상세 페이지입니다.</h3>
 <div th:object="${item}">
     <div>
-        <label for="id">Item id</label>
+        <label for="id" th:text="#{label.item.id}">Item id</label>
         <input type="text" id="id" th:field="*{id}" disabled>
     </div>
     <div>
-        <label for="itemName">Item name</label>
+        <label for="itemName" th:text="#{label.item.itemName}">Item name</label>
         <input type="text" id="itemName" th:field="*{itemName}" disabled>
     </div>
     <div>
-        <label for="price">Item price</label>
+        <label for="price" th:text="#{label.item.price}">Item price</label>
         <input type="text" id="price" th:field="*{price}" disabled>
     </div>
     <div>
-        <label for="quantity">Item quantity</label>
+        <label for="quantity" th:text="#{label.item.quantity}">Item quantity</label>
         <input type="text" id="quantity" th:field="*{quantity}" disabled>
     </div>
 
