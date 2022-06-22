@@ -4,6 +4,7 @@ import WebToyProject1.webService.domain.DeliveryCode;
 import WebToyProject1.webService.domain.Item;
 import WebToyProject1.webService.domain.ItemType;
 import WebToyProject1.webService.repository.ItemRepository;
+import WebToyProject1.webService.validation.ItemValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,8 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -29,6 +32,12 @@ import java.util.Map;
 public class MainController {
 
     private final ItemRepository itemRepository;
+    private final ItemValidator itemValidator;
+
+    @InitBinder
+    public void init(WebDataBinder webDataBinder) {
+        webDataBinder.addValidators(itemValidator);
+    }
 
     @ModelAttribute("regions")
     public Map<String, String> regions() {
@@ -86,40 +95,7 @@ public class MainController {
     }
 
     @PostMapping("/item/add")
-    public String addItem(@ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
-
-        if (!StringUtils.hasText(item.getItemName())) {
-            bindingResult.rejectValue("itemName", "required");
-        }
-
-        if (item.getPrice() == null || item.getPrice() > 1000 || item.getPrice() < 1000000) {
-            bindingResult.rejectValue("price", "range", new Object[]{1000, 1000000}, null);
-        }
-
-        if (item.getQuantity() == null || item.getQuantity() > 9999) {
-            bindingResult.rejectValue("quantity", "max", new Object[]{9999}, null);
-        }
-
-        if (item.getRegions().isEmpty()) {
-            bindingResult.rejectValue("regions", "min", new Object[]{1}, null);
-        }
-
-        if (item.getItemType() == null) {
-            bindingResult.rejectValue("itemType", "required");
-
-        }
-
-        if (!StringUtils.hasText(item.getDeliveryCode())) {
-            bindingResult.rejectValue("deliveryCode", "required");
-        }
-
-        // global
-        if (item.getQuantity() != null && item.getPrice() != null) {
-            long result = item.getPrice() + item.getQuantity();
-            if (result < 10000) {
-                bindingResult.reject("totalPriceMin", new Object[] {10000, result}, null);
-            }
-        }
+    public String addItem(@Validated @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         //오류가 있을 경우 현재 페이지에 남는다.
         if (bindingResult.hasErrors()) {
