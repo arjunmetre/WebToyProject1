@@ -32,12 +32,7 @@ import java.util.Map;
 public class MainController {
 
     private final ItemRepository itemRepository;
-    private final ItemValidator itemValidator;
 
-    @InitBinder
-    public void init(WebDataBinder webDataBinder) {
-        webDataBinder.addValidators(itemValidator);
-    }
 
     @ModelAttribute("regions")
     public Map<String, String> regions() {
