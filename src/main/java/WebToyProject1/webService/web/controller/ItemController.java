@@ -58,12 +58,12 @@ public class ItemController {
     }
 
 
-    @GetMapping("")
+    @GetMapping
     public String items(Model model) {
 
         model.addAttribute("data", itemRepository.findAll());
 
-        return "domain/items";
+        return "items/items";
     }
 
     @GetMapping("/{itemId}")
@@ -72,13 +72,13 @@ public class ItemController {
 
         model.addAttribute("item", item);
 
-        return "domain/item";
+        return "items/item";
     }
 
     @GetMapping("/add")
     public String addForm(Model model) {
         model.addAttribute("item", new Item());
-        return "domain/addItem";
+        return "items/addItem";
     }
 
     @PostMapping("/add")
@@ -87,7 +87,7 @@ public class ItemController {
         //오류가 있을 경우 현재 페이지에 남는다.
         if (bindingResult.hasErrors()) {
             log.info("bindingResult = {}", bindingResult);
-            return "domain/addItem";
+            return "items/addItem";
         }
 
         Item item = new Item();
@@ -109,7 +109,7 @@ public class ItemController {
     public String editForm(@PathVariable Long itemId, Model model) {
         Item findItem = itemRepository.findById(itemId);
         model.addAttribute("item", findItem);
-        return "domain/editItem";
+        return "items/editItem";
     }
 
     @PostMapping("/{itemId}/edit")
@@ -118,7 +118,7 @@ public class ItemController {
         //오류가 있을 경우 현재 페이지에 남는다.
         if (bindingResult.hasErrors()) {
             log.info("bindingResult = {}", bindingResult);
-            return "domain/editItem";
+            return "items/editItem";
         }
 
         Item item = new Item();
