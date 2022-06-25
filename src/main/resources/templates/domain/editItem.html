@@ -9,6 +9,11 @@
 <h3>아이템 수정 페이지입니다.</h3>
 
 <form th:action th:object="${item}" method="post">
+
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <p th:each="err : ${#fields.globalErrors()}" th:text="${err}"></p>
+    </div>
+
     <div>
         <label for="id" th:text="#{label.item.id}">Item id</label>
         <input type="text" id="id" th:field="*{id}" readonly>
@@ -16,14 +21,17 @@
     <div>
         <label for="itemName" th:text="#{label.item.itemName}">Item name</label>
         <input type="text" id="itemName" th:field="*{itemName}">
+        <div th:errors="*{itemName}">error msg</div>
     </div>
     <div>
         <label for="price" th:text="#{label.item.price}">Item price</label>
         <input type="text" id="price" th:field="*{price}">
+        <div th:errors="*{price}">err msg</div>
     </div>
     <div>
         <label for="quantity" th:text="#{label.item.quantity}">Item quantity</label>
         <input type="text" id="quantity" th:field="*{quantity}">
+        <div th:errors="*{quantity}">err msg</div>
     </div>
 
     <hr class="my-4">
@@ -40,6 +48,10 @@
             <input type="checkbox" th:field="*{regions}" th:value="${region.key}" class="form-check-input">
             <label th:for="${#ids.prev('regions')}"
                    th:text="${region.value}" class="form-check-label">서울</label>
+        </div>
+
+        <div th:errors="*{regions}">
+            err msg
         </div>
     </div>
 
@@ -59,6 +71,7 @@
                     th:text="${deliveryCode.displayName}">FAST
             </option>
         </select>
+        <div th:errors="*{deliveryCode}">err msg</div>
     </div>
 
     <hr class="my-4">

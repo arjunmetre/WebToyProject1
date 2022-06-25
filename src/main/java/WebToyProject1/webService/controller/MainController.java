@@ -3,6 +3,8 @@ package WebToyProject1.webService.controller;
 import WebToyProject1.webService.domain.DeliveryCode;
 import WebToyProject1.webService.domain.Item;
 import WebToyProject1.webService.domain.ItemType;
+import WebToyProject1.webService.domain.form.ItemEditForm;
+import WebToyProject1.webService.domain.form.ItemSaveForm;
 import WebToyProject1.webService.repository.ItemRepository;
 import WebToyProject1.webService.validation.ItemValidator;
 import lombok.RequiredArgsConstructor;
@@ -90,13 +92,23 @@ public class MainController {
     }
 
     @PostMapping("/item/add")
-    public String addItem(@Validated @ModelAttribute Item item, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+    public String addItem(@Validated @ModelAttribute("item") ItemSaveForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         //오류가 있을 경우 현재 페이지에 남는다.
         if (bindingResult.hasErrors()) {
             log.info("bindingResult = {}", bindingResult);
             return "domain/addItem";
         }
+
+        Item item = new Item();
+        item.setItemName(form.getItemName());
+        item.setPrice(form.getPrice());
+        item.setQuantity(form.getQuantity());
+        item.setOpen(form.getOpen());
+        item.setRegions(form.getRegions());
+        item.setItemType(form.getItemType());
+        item.setDeliveryCode(form.getDeliveryCode());
+
 
         itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", item.getId());
@@ -111,8 +123,24 @@ public class MainController {
     }
 
     @PostMapping("/item/{itemId}/edit")
-    public String edit(@PathVariable Long itemId, @ModelAttribute Item item) {
-        itemRepository.update(item);
+    public String edit(@PathVariable Long itemId, @Validated @ModelAttribute("item") ItemEditForm form, BindingResult bindingResult) {
+
+        //오류가 있을 경우 현재 페이지에 남는다.
+        if (bindingResult.hasErrors()) {
+            log.info("bindingResult = {}", bindingResult);
+            return "domain/editItem";
+        }
+
+        Item item = new Item();
+        item.setItemName(form.getItemName());
+        item.setPrice(form.getPrice());
+        item.setQuantity(form.getQuantity());
+        item.setOpen(form.getOpen());
+        item.setRegions(form.getRegions());
+        item.setItemType(form.getItemType());
+        item.setDeliveryCode(form.getDeliveryCode());
+
+        itemRepository.update(itemId, item);
         return "redirect:/item/{itemId}";
     }
 }
