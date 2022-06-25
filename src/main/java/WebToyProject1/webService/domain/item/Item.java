@@ -1,14 +1,9 @@
-package WebToyProject1.webService.domain;
+package WebToyProject1.webService.domain.item;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.List;
 
 @Component

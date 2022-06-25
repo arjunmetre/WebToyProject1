@@ -1,4 +1,4 @@
-package WebToyProject1.webService.domain;
+package WebToyProject1.webService.domain.item;
 
 import lombok.Getter;
 

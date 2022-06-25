@@ -1,23 +1,17 @@
-package WebToyProject1.webService.controller;
+package WebToyProject1.webService.web.controller;
 
-import WebToyProject1.webService.domain.DeliveryCode;
-import WebToyProject1.webService.domain.Item;
-import WebToyProject1.webService.domain.ItemType;
-import WebToyProject1.webService.domain.form.ItemEditForm;
-import WebToyProject1.webService.domain.form.ItemSaveForm;
-import WebToyProject1.webService.repository.ItemRepository;
-import WebToyProject1.webService.validation.ItemValidator;
+import WebToyProject1.webService.domain.item.DeliveryCode;
+import WebToyProject1.webService.domain.item.Item;
+import WebToyProject1.webService.domain.item.ItemType;
+import WebToyProject1.webService.web.form.ItemEditForm;
+import WebToyProject1.webService.web.form.ItemSaveForm;
+import WebToyProject1.webService.domain.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -30,8 +24,8 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/")
-public class MainController {
+@RequestMapping("/items")
+public class ItemController {
 
     private final ItemRepository itemRepository;
 
@@ -63,12 +57,8 @@ public class MainController {
         return deliveryCodes;
     }
 
-    @GetMapping
-    public String home() {
-        return "home";
-    }
 
-    @GetMapping("/items")
+    @GetMapping("")
     public String items(Model model) {
 
         model.addAttribute("data", itemRepository.findAll());
@@ -76,7 +66,7 @@ public class MainController {
         return "domain/items";
     }
 
-    @GetMapping("/item/{itemId}")
+    @GetMapping("/{itemId}")
     public String item(@PathVariable Long itemId, Model model) {
         Item item = itemRepository.findById(itemId);
 
@@ -85,13 +75,13 @@ public class MainController {
         return "domain/item";
     }
 
-    @GetMapping("/item/add")
+    @GetMapping("/add")
     public String addForm(Model model) {
         model.addAttribute("item", new Item());
         return "domain/addItem";
     }
 
-    @PostMapping("/item/add")
+    @PostMapping("/add")
     public String addItem(@Validated @ModelAttribute("item") ItemSaveForm form, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         //오류가 있을 경우 현재 페이지에 남는다.
@@ -112,17 +102,17 @@ public class MainController {
 
         itemRepository.save(item);
         redirectAttributes.addAttribute("itemId", item.getId());
-        return "redirect:/item/{itemId}";
+        return "redirect:/items/{itemId}";
     }
 
-    @GetMapping("/item/{itemId}/edit")
+    @GetMapping("/{itemId}/edit")
     public String editForm(@PathVariable Long itemId, Model model) {
         Item findItem = itemRepository.findById(itemId);
         model.addAttribute("item", findItem);
         return "domain/editItem";
     }
 
-    @PostMapping("/item/{itemId}/edit")
+    @PostMapping("/{itemId}/edit")
     public String edit(@PathVariable Long itemId, @Validated @ModelAttribute("item") ItemEditForm form, BindingResult bindingResult) {
 
         //오류가 있을 경우 현재 페이지에 남는다.
@@ -141,6 +131,6 @@ public class MainController {
         item.setDeliveryCode(form.getDeliveryCode());
 
         itemRepository.update(itemId, item);
-        return "redirect:/item/{itemId}";
+        return "redirect:/items/{itemId}";
     }
 }

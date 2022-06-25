@@ -1,7 +1,7 @@
 package WebToyProject1.webService;
 
-import WebToyProject1.webService.domain.Item;
-import WebToyProject1.webService.repository.ItemRepository;
+import WebToyProject1.webService.domain.item.Item;
+import WebToyProject1.webService.domain.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

@@ -1,11 +1,8 @@
-package WebToyProject1.webService.repository;
+package WebToyProject1.webService.domain.repository;
 
-import WebToyProject1.webService.domain.Item;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import WebToyProject1.webService.domain.item.Item;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

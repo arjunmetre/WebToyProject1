@@ -7,7 +7,7 @@
 <body>
 
 <h3>아이템 목록입니다.</h3>
-<a th:href="@{/item/add}">아이템 추가하기</a>
+<a th:href="@{/items/add}">아이템 추가하기</a>
 
 <table>
     <tr>
@@ -30,7 +30,7 @@
         <td th:text="${item.regions}">regions</td>
         <td th:text="${item.itemType}">itemType</td>
         <td th:text="${item.deliveryCode}">itemType</td>
-        <td><a th:href="@{/item/{itemId}(itemId=${item.id})}">아이템 상세</a></td>
+        <td><a th:href="@{/items/{itemId}(itemId=${item.id})}">아이템 상세</a></td>
     </tr>
 </table>
 

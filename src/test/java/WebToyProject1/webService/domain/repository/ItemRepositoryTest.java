@@ -1,7 +1,6 @@
 package WebToyProject1.webService.domain.repository;
 
-import WebToyProject1.webService.domain.Item;
-import WebToyProject1.webService.repository.ItemRepository;
+import WebToyProject1.webService.domain.item.Item;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.*;
